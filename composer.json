@@ -1,0 +1,30 @@
+{
+    "name": "rmcgirr83/newtopicsneedapproval",
+    "type": "phpbb-extension",
+    "description": "Adds a new forum permission which can send new topics to moderation.",
+    "version": "1.0.0",
+    "time": "2015-10-31",
+    "keywords": [
+        "phpbb",
+        "extension",
+        "profile",
+        "communication"
+    ],
+    "license": "GPL-2.0",
+    "authors": [
+        {
+            "name": "Rich McGirr",
+            "homepage": "https://www.phpbb.com/customise/db/author/rmcgirr83/contributions",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3"
+    },
+    "extra": {
+        "display-name": "New Topics Need Approval",
+        "soft-require": {
+            "phpbb/phpbb": ">=3.1.6,<3.2.*@dev"
+        }
+    }
+}
