@@ -1,7 +1,7 @@
 {
     "name": "rmcgirr83/newtopicsneedapproval",
     "type": "phpbb-extension",
-    "description": "Adds a new forum permission which can send new topics to moderation.",
+    "description": "Adds a new forum permission which can send new topics to moderation.  Once enabled you must set which forums, under the Misc tab of the forum, you want new topics to be on moderator queue on a per forum basis.",
     "version": "1.0.0",
     "time": "2015-10-31",
     "keywords": [
