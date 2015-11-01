@@ -2,7 +2,7 @@
 .gitignore export-ignore
 .travis.yml export-ignore
 .editorconfig export-ignore
-*README.md export-ignore
+*README.MD export-ignore
 
 # Auto detect text files and perform LF normalization
 * text=false
