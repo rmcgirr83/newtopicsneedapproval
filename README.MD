@@ -1,7 +1,7 @@
 phpBB-3.1-New-Topics-Need-Approval
 =========================
 
-phpBB 3.1 extension which will display snippet of posters information.  Active on index and viewforum page
+phpBB 3.1 extension which adds a new forum permission to send new topics to moderation.  Once enabled you must set which forums, under the Misc tab of the forum, you want new topics to be on moderator queue on a per forum basis.
 
 [![Build Status](https://travis-ci.org/RMcGirr83/phpBB-3.1-New-Topics-Need-Approval.svg?branch=master)](https://travis-ci.org/RMcGirr83/phpBB-3.1-New-Topics-Need-Approval
 )
