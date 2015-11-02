@@ -59,7 +59,7 @@ class listener implements EventSubscriberInterface
 		$data_array = $event['data'];
 		$mode = $event['mode'];
 
-		if ($mode == 'post' && !$this->auth->acl_get('f_topic_approve', $data_array['forum_id']))
+		if ($mode == 'post' && $this->auth->acl_get('f_topic_approve', $data_array['forum_id']))
 		{
 			$data_array['force_approved_state'] = ITEM_UNAPPROVED;
 		}
