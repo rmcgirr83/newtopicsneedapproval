@@ -18,4 +18,4 @@ git clone https://github.com/RMcGirr83/phpBB-3.1-New-Topics-Need-Approval.git ex
 ### 2. activate
 Go to admin panel -> tab customise -> Manage extensions -> enable New Topics Need Approval
 
-Within the Admin panel visit the Forums tab and choose which forums, under the Misc tab of the forum, for new topics to put on moderation queue.  The permission will be called `Can start new topics without approval` and all forums are set to Yes upon installation.
+Within the Admin panel visit the Forums tab and choose which forums, under the Misc tab of the forum, for new topics to put on moderation queue.  The permission will be called `Can start new topics without approval` and all forums are set to Yes upon installation. Ensure after installing this extension you purge the cache in the ACP.
