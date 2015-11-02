@@ -1,7 +1,7 @@
 <?php
 /**
 *
-* Profile on mouse over extension for the phpBB Forum Software package.
+* New Topics Need Approval extension for the phpBB Forum Software package.
 *
 * @copyright (c) 2015 Rich McGirr (RMcGirr83)
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
