@@ -1,9 +1,9 @@
 {
     "name": "rmcgirr83/newtopicsneedapproval",
     "type": "phpbb-extension",
-    "description": "Adds a new forum permission which can send new topics to moderation.  Once enabled you must set which forums, under the Misc tab of the forum, you want new topics to be on moderator queue on a per forum basis.  Ensure after installing this extension you purge the cache in the ACP.",
-    "version": "1.0.0",
-    "time": "2015-10-31",
+    "description": "Adds a new forum permission which can send new topics to moderation.  Once enabled you must set which forums, under the Misc tab of the forum, you want new topics to be on moderator queue on a per forum basis.",
+    "version": "1.0.1",
+    "time": "2015-11-02",
     "keywords": [
         "phpbb",
         "extension",
@@ -27,7 +27,7 @@
     "extra": {
         "display-name": "New Topics Need Approval",
         "soft-require": {
-            "phpbb/phpbb": ">=3.1.6,<3.2.*@dev"
+            "phpbb/phpbb": ">=3.1.0,<3.2.*@dev"
         }
     }
 }
