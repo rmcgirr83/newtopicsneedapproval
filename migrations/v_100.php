@@ -11,7 +11,7 @@
 namespace rmcgirr83\newtopicsneedapproval\migrations;
 
 /**
-* Migration stage 3: Initial permission
+* Migration stage 1: Initial permission
 */
 class v_100 extends \phpbb\db\migration\migration
 {

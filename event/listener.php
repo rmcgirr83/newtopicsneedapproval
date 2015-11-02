@@ -10,9 +10,6 @@
 
 namespace rmcgirr83\newtopicsneedapproval\event;
 
-/**
-* @ignore
-*/
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
