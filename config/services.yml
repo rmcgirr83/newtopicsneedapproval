@@ -3,5 +3,7 @@ services:
         class: rmcgirr83\newtopicsneedapproval\event\listener
         arguments:
             - @auth
+            - @template
+            - @user
         tags:
             - { name: event.listener }

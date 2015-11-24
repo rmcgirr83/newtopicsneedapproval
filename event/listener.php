@@ -20,9 +20,17 @@ class listener implements EventSubscriberInterface
 	/** @var \phpbb\auth\auth */
 	protected $auth;
 
-	public function __construct(\phpbb\auth\auth $auth)
+	/** @var \phpbb\template\template */
+	protected $template;
+
+	/** @var \phpbb\user */
+	protected $user;
+
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\template\template $template, \phpbb\user $user)
 	{
 		$this->auth = $auth;
+		$this->template = $template;
+		$this->user = $user;
 	}
 
 	/**
@@ -37,6 +45,8 @@ class listener implements EventSubscriberInterface
 		return array(
 			'core.permissions'					=> 'add_permission',
 			'core.modify_submit_post_data'		=> 'modify_submit_post_data',
+			'core.posting_modify_template_vars'	=> 'modify_template_vars',
+			'core.viewforum_get_topic_data'		=> 'modify_template_vars',
 		);
 	}
 
@@ -54,15 +64,56 @@ class listener implements EventSubscriberInterface
 		$event['permissions'] = $permissions;
 	}
 
+	/**
+	* Check for permission to post without approval
+	*
+	* @param object $event The event object
+	* @return null
+	* @access public
+	*/
 	public function modify_submit_post_data($event)
 	{
 		$data_array = $event['data'];
 		$mode = $event['mode'];
 
-		if ($mode == 'post' && $this->auth->acl_get('f_topic_approve', $data_array['forum_id']))
+		if ($mode == 'post' && $this->check_auth($data_array['forum_id']))
 		{
 			$data_array['force_approved_state'] = ITEM_UNAPPROVED;
 		}
 		$event['data'] = $data_array;
 	}
+
+	/**
+	* Show a message if can't post without approval
+	*
+	* @param object $event The event object
+	* @return null
+	* @access public
+	*/
+	public function modify_template_vars($event)
+	{
+		if ($this->check_auth($event['forum_id']))
+		{
+			$this->user->add_lang_ext('rmcgirr83/newtopicsneedapproval', 'common');
+			$this->template->assign_var('S_REQUIRES_APPROVAL', true);
+		}
+	}
+
+	/**
+	* User/group can post in forum without approval
+	*
+	* @param object $forum_id The id of the forum
+	* @return approval true if needed false if not
+	* @access private
+	*/
+	private function check_auth($forum_id)
+	{
+		$requires_approval = false;
+		if ($this->auth->acl_get('f_topic_approve', $forum_id))
+		{
+			$requires_approval = true;
+		}
+		return $requires_approval;
+	}
+
 }
