@@ -19,7 +19,8 @@
         }
     ],
     "require": {
-        "php": ">=5.3.3"
+        "php": ">=5.3.3",
+		"phpbb/phpbb": ">=3.1.0,<3.3"
     },
     "require-dev": {
         "phpbb/epv": "dev-master"
@@ -27,7 +28,7 @@
     "extra": {
         "display-name": "New Topics Need Approval",
         "soft-require": {
-            "phpbb/phpbb": ">=3.1.0,<3.2.*@dev"
+            "phpbb/phpbb": ">=3.1.0,<3.3"
         }
     }
 }
