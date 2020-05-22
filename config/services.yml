@@ -2,8 +2,8 @@ services:
     rmcgirr83.newtopicsneedapproval.listener:
         class: rmcgirr83\newtopicsneedapproval\event\listener
         arguments:
-            - @auth
-            - @template
-            - @user
+            - '@auth'
+            - '@template'
+            - '@user'
         tags:
             - { name: event.listener }
