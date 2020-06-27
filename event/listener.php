@@ -43,12 +43,24 @@ class listener implements EventSubscriberInterface
 	static public function getSubscribedEvents()
 	{
 		return array(
+			'core.user_setup'					=> 'user_setup',
 			'core.permissions'					=> 'add_permission',
 			'core.modify_submit_post_data'		=> 'modify_submit_post_data',
-			'core.posting_modify_template_vars'	=> 'modify_template_vars',
+			'core.posting_modify_template_vars'	=> 'posting_modify_template_vars',
 			'core.viewforum_get_topic_data'		=> 'modify_template_vars',
-			'core.viewtopic_assign_template_vars_before'	=> 'viewtopic_assign_template_vars_before',
 		);
+	}
+
+	/**
+	 * Add the lang vars
+	 *
+	 * @param object $event The event object
+	 * @return null
+	 * @access public
+	 */
+	public function user_setup($event)
+	{
+		$this->user->add_lang_ext('rmcgirr83/newtopicsneedapproval', 'common');
 	}
 
 	/**
@@ -91,11 +103,29 @@ class listener implements EventSubscriberInterface
 	* @return null
 	* @access public
 	*/
+	public function posting_modify_template_vars($event)
+	{
+		if ($this->check_auth($event['forum_id']) && $event['mode'] == 'post')
+		{
+			// admins and mods don't need permission to post
+			if (!$this->auth->acl_get('a_') && !$this->auth->acl_get('m_') && !$this->auth->acl_getf_global('m_'))
+			{
+				$this->template->assign_var('S_REQUIRES_APPROVAL', true);
+			}
+		}
+	}
+
+	/**
+	* Show a message if can't post without approval
+	*
+	* @param object $event The event object
+	* @return null
+	* @access public
+	*/
 	public function modify_template_vars($event)
 	{
-		if ($this->check_auth($event['forum_id'] && $event['mode']) == 'post')
+		if ($this->check_auth($event['forum_id']))
 		{
-			$this->user->add_lang_ext('rmcgirr83/newtopicsneedapproval', 'common');
 			// admins and mods don't need permission to post
 			if (!$this->auth->acl_get('a_') && !$this->auth->acl_get('m_') && !$this->auth->acl_getf_global('m_'))
 			{
@@ -120,32 +150,10 @@ class listener implements EventSubscriberInterface
 		{
 			return $requires_approval;
 		}
-
 		if ($this->auth->acl_get('f_topic_approve', $forum_id))
 		{
 			$requires_approval = true;
 		}
 		return $requires_approval;
 	}
-
-	/**
-	* Show a message if can't post without approval
-	*
-	* @param object $event The event object
-	* @return null
-	* @access public
-	*/
-	public function viewtopic_assign_template_vars_before($event)
-	{
-		if ($this->check_auth($event['topic_data']['forum_id']))
-		{
-			$this->user->add_lang_ext('rmcgirr83/newtopicsneedapproval', 'common');
-			// admins and mods don't need permission to post
-			if (!$this->auth->acl_get('a_') && !$this->auth->acl_get('m_') && !$this->auth->acl_getf_global('m_'))
-			{
-				$this->template->assign_var('S_REQUIRES_APPROVAL', true);
-			}
-		}
-	}
-
 }
