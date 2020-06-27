@@ -47,6 +47,7 @@ class listener implements EventSubscriberInterface
 			'core.modify_submit_post_data'		=> 'modify_submit_post_data',
 			'core.posting_modify_template_vars'	=> 'modify_template_vars',
 			'core.viewforum_get_topic_data'		=> 'modify_template_vars',
+			'core.viewtopic_assign_template_vars_before'	=> 'viewtopic_assign_template_vars_before',
 		);
 	}
 
@@ -76,7 +77,7 @@ class listener implements EventSubscriberInterface
 		$data_array = $event['data'];
 		$mode = $event['mode'];
 
-		if ($mode == 'post' && $this->check_auth($data_array['forum_id']))
+		if ($event['mode'] == 'post' && $this->check_auth($event['data']['forum_id']))
 		{
 			$data_array['force_approved_state'] = ITEM_UNAPPROVED;
 		}
@@ -92,10 +93,14 @@ class listener implements EventSubscriberInterface
 	*/
 	public function modify_template_vars($event)
 	{
-		if ($this->check_auth($event['forum_id']))
+		if ($this->check_auth($event['forum_id'] && $event['mode']) == 'post')
 		{
 			$this->user->add_lang_ext('rmcgirr83/newtopicsneedapproval', 'common');
-			$this->template->assign_var('S_REQUIRES_APPROVAL', true);
+			// admins and mods don't need permission to post
+			if (!$this->auth->acl_get('a_') && !$this->auth->acl_get('m_') && !$this->auth->acl_getf_global('m_'))
+			{
+				$this->template->assign_var('S_REQUIRES_APPROVAL', true);
+			}
 		}
 	}
 
@@ -109,11 +114,38 @@ class listener implements EventSubscriberInterface
 	private function check_auth($forum_id)
 	{
 		$requires_approval = false;
+
+		// admins and mods can always post without approval
+		if ($this->auth->acl_get('a_') || $this->auth->acl_get('m_') || $this->auth->acl_getf_global('m_'))
+		{
+			return $requires_approval;
+		}
+
 		if ($this->auth->acl_get('f_topic_approve', $forum_id))
 		{
 			$requires_approval = true;
 		}
 		return $requires_approval;
+	}
+
+	/**
+	* Show a message if can't post without approval
+	*
+	* @param object $event The event object
+	* @return null
+	* @access public
+	*/
+	public function viewtopic_assign_template_vars_before($event)
+	{
+		if ($this->check_auth($event['topic_data']['forum_id']))
+		{
+			$this->user->add_lang_ext('rmcgirr83/newtopicsneedapproval', 'common');
+			// admins and mods don't need permission to post
+			if (!$this->auth->acl_get('a_') && !$this->auth->acl_get('m_') && !$this->auth->acl_getf_global('m_'))
+			{
+				$this->template->assign_var('S_REQUIRES_APPROVAL', true);
+			}
+		}
 	}
 
 }
