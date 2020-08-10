@@ -10,6 +10,10 @@
 
 namespace rmcgirr83\newtopicsneedapproval\event;
 
+use phpbb\auth\auth;
+use phpbb\language\language;
+use phpbb\template\template;
+
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -20,17 +24,17 @@ class listener implements EventSubscriberInterface
 	/** @var \phpbb\auth\auth */
 	protected $auth;
 
+	/** @var \phpbb\language\language */
+	protected $language;
+
 	/** @var \phpbb\template\template */
 	protected $template;
 
-	/** @var \phpbb\user */
-	protected $user;
-
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\template\template $template, \phpbb\user $user)
+	public function __construct(auth $auth, language $language, template $template)
 	{
 		$this->auth = $auth;
+		$this->language = $language;
 		$this->template = $template;
-		$this->user = $user;
 	}
 
 	/**
@@ -60,7 +64,7 @@ class listener implements EventSubscriberInterface
 	 */
 	public function user_setup($event)
 	{
-		$this->user->add_lang_ext('rmcgirr83/newtopicsneedapproval', 'common');
+		$this->language->add_lang('common', 'rmcgirr83/newtopicsneedapproval');
 	}
 
 	/**
@@ -107,11 +111,7 @@ class listener implements EventSubscriberInterface
 	{
 		if ($this->check_auth($event['forum_id']) && $event['mode'] == 'post')
 		{
-			// admins and mods don't need permission to post
-			if (!$this->auth->acl_get('a_') && !$this->auth->acl_get('m_') && !$this->auth->acl_getf_global('m_'))
-			{
-				$this->template->assign_var('S_REQUIRES_APPROVAL', true);
-			}
+			$this->template->assign_var('S_REQUIRES_APPROVAL', true);
 		}
 	}
 
@@ -126,20 +126,16 @@ class listener implements EventSubscriberInterface
 	{
 		if ($this->check_auth($event['forum_id']))
 		{
-			// admins and mods don't need permission to post
-			if (!$this->auth->acl_get('a_') && !$this->auth->acl_get('m_') && !$this->auth->acl_getf_global('m_'))
-			{
-				$this->template->assign_var('S_REQUIRES_APPROVAL', true);
-			}
+			$this->template->assign_var('S_REQUIRES_APPROVAL', true);
 		}
 	}
 
 	/**
 	* User/group can post in forum without approval
 	*
-	* @param object $forum_id The id of the forum
-	* @return approval true if needed false if not
-	* @access private
+	* @param	int 	$forum_id	The id of the forum
+	* @return	bool				true if needed false if not
+	* @access 	private
 	*/
 	private function check_auth($forum_id)
 	{

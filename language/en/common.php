@@ -18,7 +18,7 @@ if (!defined('IN_PHPBB'))
 
 if (empty($lang) || !is_array($lang))
 {
-	$lang = array();
+	$lang = [];
 }
 
 // DEVELOPERS PLEASE NOTE
@@ -37,6 +37,6 @@ if (empty($lang) || !is_array($lang))
 // ’ » “ ” …
 //
 
-$lang = array_merge($lang, array(
-	'TOPIC_APPROVAL_NOTICE'		=> 'All new topics posted in this forum require moderator approval.',
-));
+$lang = array_merge($lang, [
+	'TOPIC_APPROVAL_NOTICE'		=> 'All new topics posted in this forum require moderator approval',
+]);

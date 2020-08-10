@@ -3,7 +3,7 @@ services:
         class: rmcgirr83\newtopicsneedapproval\event\listener
         arguments:
             - '@auth'
+            - '@language'
             - '@template'
-            - '@user'
         tags:
             - { name: event.listener }
