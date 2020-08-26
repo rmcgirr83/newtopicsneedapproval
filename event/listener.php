@@ -47,12 +47,28 @@ class listener implements EventSubscriberInterface
 	static public function getSubscribedEvents()
 	{
 		return array(
-			'core.user_setup'					=> 'user_setup',
+			'core.acp_extensions_run_action_after'	=>	'acp_extensions_run_action_after',
+			'core.user_setup_after'				=> 'user_setup_after',
 			'core.permissions'					=> 'add_permission',
 			'core.modify_submit_post_data'		=> 'modify_submit_post_data',
 			'core.posting_modify_template_vars'	=> 'posting_modify_template_vars',
 			'core.viewforum_get_topic_data'		=> 'modify_template_vars',
 		);
+	}
+
+	/* Display additional metdate in extension details
+	*
+	* @param $event			event object
+	* @param return null
+	* @access public
+	*/
+	public function acp_extensions_run_action_after($event)
+	{
+		if ($event['ext_name'] == 'rmcgirr83/newtopicsneedapproval' && $event['action'] == 'details')
+		{
+			$this->language->add_lang('common', $event['ext_name']);
+			$this->template->assign_var('S_BUY_ME_A_BEER_NTNA', true);
+		}
 	}
 
 	/**
@@ -91,7 +107,6 @@ class listener implements EventSubscriberInterface
 	public function modify_submit_post_data($event)
 	{
 		$data_array = $event['data'];
-		$mode = $event['mode'];
 
 		if ($event['mode'] == 'post' && $this->check_auth($event['data']['forum_id']))
 		{
