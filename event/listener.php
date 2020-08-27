@@ -78,7 +78,7 @@ class listener implements EventSubscriberInterface
 	 * @return null
 	 * @access public
 	 */
-	public function user_setup($event)
+	public function user_setup_after($event)
 	{
 		$this->language->add_lang('common', 'rmcgirr83/newtopicsneedapproval');
 	}
