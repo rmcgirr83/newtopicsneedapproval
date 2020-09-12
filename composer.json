@@ -2,8 +2,8 @@
     "name": "rmcgirr83/newtopicsneedapproval",
     "type": "phpbb-extension",
     "description": "Adds a new forum permission which can send new topics to moderation.  Once enabled you must set permissions for groups for which forums, under the permissions Misc tab of the forum, you want new topics to be on moderator queue on a per forum basis.",
-    "version": "1.0.5",
-    "time": "2020-08-26",
+    "version": "1.0.6",
+    "time": "2020-09-12",
     "keywords": [
         "phpbb",
         "extension",
@@ -20,7 +20,7 @@
     ],
     "require": {
         "php": ">=7.1",
-        "phpbb/phpbb": ">=3.2,<4.0"
+        "phpbb/phpbb": ">=3.2"
     },
     "require-dev": {
         "phpbb/epv": "dev-master"
@@ -28,7 +28,7 @@
     "extra": {
         "display-name": "New Topics Need Approval",
         "soft-require": {
-            "phpbb/phpbb": ">=3.2,<4.0"
+            "phpbb/phpbb": ">=3.2"
         },
         "version-check": {
             "host": "www.phpbb.com",
